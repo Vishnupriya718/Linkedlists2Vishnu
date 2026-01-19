@@ -22,7 +22,9 @@ void averageRecursive(node* current, float& sum, int& count);
 int main() {
   node* head = NULL;
   addStudent(head);
-  return 0:
+  addStudent(head);
+  printStudents(head);
+  return 0;
 }
 // ADD STUDENT
 void addStudent(node*& head) {
@@ -47,16 +49,13 @@ void addStudent(node*& head) {
     // make the student object
     student* s = new student(fname, lname, id, gpa);
 
-    // yk wrap it in a node bc linked list moment
+    //  wrap it in a node bc linked list moment
     node* newNode = new node(s);
 
-    // yk recursion handles sorted insertion
+    //  recursion handles sorted insertion
     addRecursive(head, newNode);
 }
-
-// recursive sorted insert
 void addRecursive(node*& current, node* newNode) {
-    //empty list OR new node goes before current
     if (current == NULL ||
         newNode->getStudent()->getID() < current->getStudent()->getID()) {
 
@@ -65,11 +64,29 @@ void addRecursive(node*& current, node* newNode) {
         return;
     }
 
-    // otherwise keep going
-    addRecursive(current->getNext(), newNode);
+    node* temp = current->getNext();   // copy next pointer
+    addRecursive(temp, newNode);       // recurse on the copy
+    current->setNext(temp);            // write back updated pointer
+}
+// PRINT STUDENT
+void printStudents(node* head) {
+    if (head == NULL) {
+        cout << "No students in list." << endl;
+        return;
+    }
+    printRecursive(head);
 }
 
-// PRINT STUDENT
+void printRecursive(node* current) {
+    if (current == NULL) return;
+
+    student* s = current->getStudent();
+    cout << s->getFirst() << " " << s->getLast() << ", "
+         << s->getID() << ", "
+         << fixed << setprecision(2) << s->getGPA() << endl;
+
+    printRecursive(current->getNext());
+}
 
 
 // DELETE STUDENT

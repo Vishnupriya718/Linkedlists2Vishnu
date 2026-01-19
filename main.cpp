@@ -6,7 +6,7 @@
 
 using namespace std;
 
-// yk prototypes so main knows these exist
+//  prototypes so main knows these exist
 void addStudent(node*& head);
 void addRecursive(node*& current, node* newNode);
 

@@ -20,11 +20,42 @@ void averageGpa(node* head);
 void averageRecursive(node* current, float& sum, int& count);
 
 int main() {
-    node* head = NULL;
-    addStudent(head);
-    addStudent(head);
-    addStudent(head);
-    averageGpa(head);
+    node* head = NULL;   //starting with an empty list
+    char command[10];
+
+    cout << "Enter a command (ADD, PRINT, DELETE, AVERAGE, QUIT):" << endl;
+
+    while (true) {
+        cin >> command;
+
+        if (strcmp(command, "ADD") == 0) {
+            addStudent(head);
+        }
+        else if (strcmp(command, "PRINT") == 0) {
+            printStudents(head);
+        }
+        else if (strcmp(command, "DELETE") == 0) {
+            deleteStudent(head);
+        }
+        else if (strcmp(command, "AVERAGE") == 0) {
+            averageGpa(head);
+        }
+        else if (strcmp(command, "QUIT") == 0) {
+            break;
+        }
+        else {
+            cout << "Unknown command." << endl;
+        }
+    }
+
+    //  cleanup, memory leaks 
+    while (head != NULL) {
+        node* temp = head;
+        head = head->getNext();
+        delete temp->getStudent();
+        delete temp;
+    }
+
     return 0;
 }
 

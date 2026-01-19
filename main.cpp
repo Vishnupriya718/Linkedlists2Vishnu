@@ -23,9 +23,8 @@ int main() {
     node* head = NULL;
     addStudent(head);
     addStudent(head);
-    printStudents(head);
-    deleteStudent(head);
-    printStudents(head);
+    addStudent(head);
+    averageGpa(head);
     return 0;
 }
 
@@ -130,16 +129,29 @@ void deleteRecursive(node*& current, int id) {
     deleteRecursive(temp, id);
     current->setNext(temp);
 }
-
-
-
-
-
-
-  
-  
-  
-
-  
-
 // AVERAGE GPA
+// function so main doesn't deal with sum/count directly
+void averageGpa(node* head) {
+    if (head == NULL) {
+        cout << "No students in list." << endl;
+        return;
+    }
+
+    float sum = 0;
+    int count = 0;
+
+    //recursion does the heavy lifting
+    averageRecursive(head, sum, count);
+
+    cout << fixed << setprecision(2) << (sum / count) << endl;
+}
+
+//recursive helper: walk the list, add GPAs, count students
+void averageRecursive(node* current, float& sum, int& count) {
+    if (current == NULL) return;  // base case
+
+    sum += current->getStudent()->getGPA();
+    count++;
+
+    averageRecursive(current->getNext(), sum, count);
+}

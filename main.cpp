@@ -20,12 +20,15 @@ void averageGpa(node* head);
 void averageRecursive(node* current, float& sum, int& count);
 
 int main() {
-  node* head = NULL;
-  addStudent(head);
-  addStudent(head);
-  printStudents(head);
-  return 0;
+    node* head = NULL;
+    addStudent(head);
+    addStudent(head);
+    printStudents(head);
+    deleteStudent(head);
+    printStudents(head);
+    return 0;
 }
+
 // ADD STUDENT
 void addStudent(node*& head) {
     // gather info from user
@@ -90,4 +93,53 @@ void printRecursive(node* current) {
 
 
 // DELETE STUDENT
+
+void deleteStudent(node*& head) {
+    if (head == NULL) {
+        cout << "List is empty." << endl;
+        return;
+    }
+
+    int id;
+    cout << "Enter student ID to delete: ";
+    cin >> id;
+
+    deleteRecursive(head, id);
+}
+
+void deleteRecursive(node*& current, int id) {
+    if (current == NULL) {
+        cout << "Student not found." << endl;
+        return;
+    }
+
+    // found the node to delete
+    if (current->getStudent()->getID() == id) {
+        node* temp = current;
+        current = current->getNext();
+
+        delete temp->getStudent();
+        delete temp;
+
+        cout << "Student deleted." << endl;
+        return;
+    }
+
+    // FIXED: cannot pass current->getNext() directly
+    node* temp = current->getNext();
+    deleteRecursive(temp, id);
+    current->setNext(temp);
+}
+
+
+
+
+
+
+  
+  
+  
+
+  
+
 // AVERAGE GPA
